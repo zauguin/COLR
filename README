@@ -1,0 +1,11 @@
+Example usage:
+
+    sh script.sh Untitled1.sfd Untitled1.sfd.palettes
+
+This generates a file `Untitled1.sfd.colr.ttf` where FontForge foreground layers are color layers. The associated color palettes have to be specified in the file passed as second parameter.
+
+This does not implement real input checking and error handling, so if something breaks you might dave to work through the scripts.
+
+    build_colr.lua:51: assertion failed!
+
+might mean that your input font does not contain any layered glyphs.
