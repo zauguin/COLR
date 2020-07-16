@@ -43,9 +43,9 @@ end
 local parse_layers do
   local str = "'" * l.C((1-l.P"'")^0) * "'"
   local function list_of(p) return p * (', ' * p)^0 end
-  local function dict_of(p) return l.Cf(l.Ct'' * '{' * list_of(l.Cg(str * ': ' * p)) * '}', rawset) end
+  local function dict_of(p) return l.Cf(l.Ct'' * '{' * list_of(l.Cg(str * ': ' * p))^-1 * '}', rawset) end
   local dict = dict_of(dict_of(str))
-  local array = l.Ct('[' * list_of(str) * ']')
+  local array = l.Ct('[' * list_of(str)^-1 * ']')
   function parse_layers(fn)
     local f = assert(io.open(fn))
     local arr, dict = assert((array*dict*-1):match(f:read'a'))
