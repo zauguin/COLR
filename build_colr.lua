@@ -31,9 +31,6 @@ local function build_cpal(t, layers)
     bases[i] = string.pack(">H", base)
     for j, layer in ipairs(layers) do
       local color = t[i][layer]
-      if color then
-        print(htmlColor:match(color))
-      end
       colors[base+j] = color and assert(htmlColor:match(color)) or '\xFF\xFF\xFF\xFF'
     end
   end
