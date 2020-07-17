@@ -21,7 +21,7 @@ end
 local l = lpeg or require'lpeg'
 
 local hexByte = l.R('09', 'AF', 'af') * l.R('09', 'af', 'AF')/function(s)return tonumber(s, 16)end
-local htmlColor = '#' * hexByte * hexByte * hexByte * (hexByte+l.Cc(0)) * -1 / function(r,g,b,a) return string.char(r,g,b,a)end
+local htmlColor = '#' * hexByte * hexByte * hexByte * (hexByte+l.Cc(0xFF)) * -1 / function(r,g,b,a) return string.char(r,g,b,a)end
 
 local function build_cpal(t, layers)
   local bases = {}
@@ -31,7 +31,7 @@ local function build_cpal(t, layers)
     bases[i] = string.pack(">H", base)
     for j, layer in ipairs(layers) do
       local color = t[i][layer]
-      colors[base+j] = color and assert(htmlColor:match(color)) or '\xFF\xFF\xFF\xFF'
+      colors[base+j] = color and assert(htmlColor:match(color)) or '\xFF\xFF\xFF\x00'
     end
   end
   return string.pack(">HHHHI4", 0, #layers, #t, #colors, 12+#bases*2) .. table.concat(bases) .. table.concat(colors)
